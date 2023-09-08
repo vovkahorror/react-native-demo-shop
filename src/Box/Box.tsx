@@ -1,14 +1,23 @@
-import {View} from 'react-native';
+import {View, ViewProps} from 'react-native';
+import {FC} from 'react';
 
-export const Box = () => {
+export const Box: FC<BoxPropsType> = ({children, bgr, width, height, ...restProps}) => {
     return (
-        <View>
-
+        <View
+            {...restProps}
+            style={[restProps.style, {
+            backgroundColor: bgr,
+            borderWidth: 1,
+            width,
+            margin: 3,
+            height: height ?? width,
+        }]}>
+            {children ?? children}
         </View>
     );
 };
 
-interface BoxPropsType {
+interface BoxPropsType extends ViewProps {
     bgr: string;
     width: number;
     height?: number;
