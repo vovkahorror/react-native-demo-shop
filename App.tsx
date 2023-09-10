@@ -2,6 +2,7 @@ import {StatusBar} from 'expo-status-bar';
 import {StyleSheet, Text, View} from 'react-native';
 import {Box} from './src/Box/Box';
 import {VStack} from './src/VStack/VStack';
+import {HStack} from './src/HStack/HStack';
 
 export default function App() {
     return (
@@ -11,11 +12,13 @@ export default function App() {
                 <Box width={100} bgr={'#7767f8'}>
                     <Text>Children</Text>
                 </Box>
-                <Box width={100} bgr={'#7767f8'}>
-                    <Box width={20} bgr={'#a85454'}/>
-                    <Box width={20} bgr={'#a85454'}/>
-                    <Box width={20} bgr={'#a85454'}/>
-                </Box>
+                <HStack>
+                    <Box width={100} bgr={'#a85454'}/>
+                    <Box width={100} bgr={'#a85454'}/>
+                    <Box width={100} bgr={'#a85454'}/>
+                    <Box width={100} bgr={'#a85454'}/>
+                    <Box width={100} bgr={'#a85454'}/>
+                </HStack>
                 <Box width={100} bgr={'#7767f8'}/>
             </VStack>
         </View>
