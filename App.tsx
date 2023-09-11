@@ -1,7 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
-import {FlatList, Image, ListRenderItem, Pressable, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, ListRenderItem, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {PADDING, WIDTH} from './src/constants/constants';
 import {BasketIcon} from './src/SvgIcons/BasketIcon';
+import {BurgerMenuIcon} from './src/SvgIcons/BurgerMenuIcon';
 
 const images = [
     require('./assets/image1.jpg'),
@@ -13,7 +14,7 @@ const images = [
 ];
 
 const titles = [
-    'Apple iPhone 13 128GB Blue',
+    'Apple iPhone 13 \n128GB Blue',
     'Apple iPhone 14 Pro 128GB Space Black',
     'Apple iPhone 12 128GB Purple',
     'Apple iPhone SE 128GB 2022 Midnight',
@@ -50,16 +51,52 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <StatusBar style={'auto'}/>
+            <StatusBar style={'light'}/>
             <FlatList
                 data={fakeData}
                 renderItem={renderItem}
                 numColumns={2}
-                contentContainerStyle={{paddingHorizontal: PADDING}}
-                columnWrapperStyle={{justifyContent: 'space-between'}}/>
+                contentContainerStyle={{paddingHorizontal: PADDING, flexGrow: 1}}
+                columnWrapperStyle={{justifyContent: 'space-between'}}
+                ListHeaderComponent={Header}
+                ListHeaderComponentStyle={styles.header}
+                stickyHeaderIndices={[0]}
+                ListFooterComponent={Footer}
+                ListFooterComponentStyle={styles.footer}
+                ListEmptyComponent={Empty}/>
         </View>
     );
 }
+
+const Header = () => {
+    return (
+        <View style={styles.headerContent}>
+            <Pressable>
+                <BurgerMenuIcon/>
+            </Pressable>
+            <Pressable>
+                <BasketIcon colorFill={'#fff'}/>
+            </Pressable>
+        </View>
+    );
+};
+
+const Footer = () => {
+    return (
+        <View style={styles.footerContent}>
+            <Text style={styles.footerText}>© 2023 Volodymyr Yaremchak</Text>
+        </View>
+    );
+};
+
+const Empty = () => {
+    return (
+        <View style={styles.emptyContent}>
+            <Text style={styles.emptyTitle}>Oops! This page looks empty</Text>
+            <Text style={styles.emptySubtitle}>Refresh page or clear filter</Text>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -99,8 +136,49 @@ const styles = StyleSheet.create({
     phonePrice: {
         fontWeight: '400',
         lineHeight: 12,
-        fontSize: 12
-    }
+        fontSize: 12,
+    },
+    header: {
+        borderWidth: 1,
+        marginHorizontal: -PADDING,
+        paddingTop: Platform.OS == 'ios' ? 50 : 20,
+        backgroundColor: '#21201e',
+        marginBottom: 19,
+    },
+    headerContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    footer: {
+        marginHorizontal: -PADDING,
+        backgroundColor: '#21201e',
+    },
+    footerContent: {
+        paddingTop: 15,
+        paddingBottom: 25,
+        alignItems: 'center',
+    },
+    footerText: {
+        color: '#fff',
+    },
+    emptyContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    emptyTitle: {
+        fontWeight: '500',
+        fontSize: 20,
+        lineHeight: 24,
+    },
+    emptySubtitle: {
+        fontWeight: '400',
+        fontSize: 14,
+        lineHeight: 24,
+    },
 });
 
 type ItemType = {
