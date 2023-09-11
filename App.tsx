@@ -1,10 +1,10 @@
 import {StatusBar} from 'expo-status-bar';
-import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet, Text, View, Image} from 'react-native';
 import {Box} from './src/Box/Box';
 import {VStack} from './src/VStack/VStack';
 import {HStack} from './src/HStack/HStack';
 import {ZStack} from './src/ZStack/ZStack';
-import {PADDING} from './src/constants/constants';
+import {PADDING, WIDTH} from './src/constants/constants';
 
 const images = [
     require('./assets/image1.jpg'),
@@ -36,17 +36,25 @@ const fakeData: ItemType[] = [...Array(12)].map((_, index) => ({
 export default function App() {
     const renderItem: ListRenderItem<ItemType> = ({item}) => {
         return (
-            <View>
-                <Text>{item.title}</Text>
-                <Text>{item.price}</Text>
+            <View style={styles.itemPhone}>
+                <Image resizeMode={'contain'} source={item.image} style={styles.phoneImage}/>
+                <View style={styles.infoPhone}>
+                    <Text style={styles.phoneName}>{item.title}</Text>
+                    <Text>$ {item.price}</Text>
+                </View>
             </View>
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.container}>
             <StatusBar style={'auto'}/>
-            <FlatList data={fakeData} renderItem={renderItem}/>
+            <FlatList
+                data={fakeData}
+                renderItem={renderItem}
+                numColumns={2}
+                contentContainerStyle={{paddingHorizontal: PADDING}}
+                columnWrapperStyle={{justifyContent: 'space-between'}}/>
         </View>
     );
 }
@@ -54,9 +62,31 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#cecece',
+    },
+    itemPhone: {
         backgroundColor: '#fff',
-        justifyContent: 'center',
-        paddingHorizontal: PADDING,
+        width: (WIDTH - PADDING * 2) / 2 - (PADDING / 2),
+        marginVertical: 6,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.4)',
+        borderRadius: 5,
+        paddingTop: 12,
+    },
+    phoneImage: {
+        width: (WIDTH - PADDING * 2) / 2 - (PADDING / 2),
+        height: (WIDTH - PADDING * 2) / 2 - (PADDING / 2),
+    },
+    infoPhone: {
+        marginTop: 19,
+        marginBottom: 22,
+        paddingLeft: 12,
+        paddingRight: 15,
+    },
+    phoneName: {
+        fontSize: 12,
+        fontWeight: '500',
+        lineHeight: 16,
     },
 });
 
