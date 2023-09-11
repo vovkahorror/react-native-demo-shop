@@ -1,10 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
-import {FlatList, ListRenderItem, StyleSheet, Text, View, Image} from 'react-native';
-import {Box} from './src/Box/Box';
-import {VStack} from './src/VStack/VStack';
-import {HStack} from './src/HStack/HStack';
-import {ZStack} from './src/ZStack/ZStack';
+import {FlatList, Image, ListRenderItem, Pressable, StyleSheet, Text, View} from 'react-native';
 import {PADDING, WIDTH} from './src/constants/constants';
+import {BasketIcon} from './src/SvgIcons/BasketIcon';
 
 const images = [
     require('./assets/image1.jpg'),
@@ -40,7 +37,12 @@ export default function App() {
                 <Image resizeMode={'contain'} source={item.image} style={styles.phoneImage}/>
                 <View style={styles.infoPhone}>
                     <Text style={styles.phoneName}>{item.title}</Text>
-                    <Text>$ {item.price}</Text>
+                    <View style={styles.containerPhonePrice}>
+                        <Text style={styles.phonePrice}>$ {item.price}</Text>
+                        <Pressable>
+                            <BasketIcon/>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         );
@@ -88,6 +90,17 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: 16,
     },
+    containerPhonePrice: {
+        marginTop: 17,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    phonePrice: {
+        fontWeight: '400',
+        lineHeight: 12,
+        fontSize: 12
+    }
 });
 
 type ItemType = {
