@@ -1,8 +1,12 @@
 import {Children, cloneElement, FC, ReactNode} from 'react';
 import {View} from 'react-native';
 
-const getAbsoluteChildren = (children: ReactNode | ReactNode[]) => {
+const getAbsoluteChildren = (children: ReactNode | ReactNode[], reverse: boolean) => {
     let childrenArray = Children.toArray(children);
+
+    if (reverse) {
+        childrenArray = childrenArray.reverse();
+    }
 
     return childrenArray.map((child: any) => {
         return cloneElement(
@@ -13,14 +17,15 @@ const getAbsoluteChildren = (children: ReactNode | ReactNode[]) => {
     })
 }
 
-export const ZStack: FC<ZStackPropsType> = ({children}) => {
+export const ZStack: FC<ZStackPropsType> = ({children, reverse = false}) => {
     return (
         <View style={{position: 'relative'}}>
-            {getAbsoluteChildren(children)}
+            {getAbsoluteChildren(children, reverse)}
         </View>
     )
 }
 
 interface ZStackPropsType {
     children: ReactNode | ReactNode[];
+    reverse?: boolean;
 }
